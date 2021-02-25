@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Services.GenericRepository.Services
 {
+    /// <summary>
+    /// Crud Services 
+    /// Impelement IGenericRepository
+    /// </summary>
+    /// <typeparam name="TModel">T Entity</typeparam>
     public class GenericServices<TModel> : IGenericRepository<TModel> where TModel : class
     {
         #region __Dependency__

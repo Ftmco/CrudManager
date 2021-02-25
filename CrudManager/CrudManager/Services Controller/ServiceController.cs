@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Services.GenericRepository.ServicesController
 {
-    public class ServiceController<TModel, TContext> : IServiceController<TModel,TContext> where TModel : class where TContext : DbContext, new()
+    public class ServiceController<TModel, TContext> : IServiceController<TModel, TContext> where TModel : class where TContext : DbContext, new()
     {
 
         #region __Depndency__
@@ -55,6 +55,5 @@ namespace Services.GenericRepository.ServicesController
         /// True = Success; Fasle = Exception
         /// </returns>
         public async Task<bool> SaveAsync() => await _unitOfwork.SaveAsync();
-
     }
 }
