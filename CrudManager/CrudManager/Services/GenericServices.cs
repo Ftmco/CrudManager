@@ -59,7 +59,7 @@ namespace Services.GenericRepository.Services
             }
             catch
             {
-                return false;
+                throw;
             }
         });
 
@@ -72,7 +72,7 @@ namespace Services.GenericRepository.Services
             }
             catch
             {
-                return false;
+                throw;
             }
         });
 
@@ -84,9 +84,9 @@ namespace Services.GenericRepository.Services
                 await _dbSet.AddAsync(model);
                 return true;
             }
-            catch
+            catch(OperationCanceledException operationCanceledException)
             {
-                return false;
+                throw operationCanceledException;
             }
         });
 
@@ -97,9 +97,9 @@ namespace Services.GenericRepository.Services
                 await _dbSet.AddRangeAsync(model);
                 return true;
             }
-            catch
+            catch (OperationCanceledException operationCanceledException)
             {
-                return false;
+                throw operationCanceledException;
             }
         });
 
@@ -112,7 +112,7 @@ namespace Services.GenericRepository.Services
             }
             catch
             {
-                return false;
+                throw;
             }
         });
 
@@ -125,7 +125,7 @@ namespace Services.GenericRepository.Services
             }
             catch
             {
-                return false;
+                throw;
             }
         });
 

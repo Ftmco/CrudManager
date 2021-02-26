@@ -58,8 +58,8 @@ namespace Services.GenericRepository.Services
         /// <param name="model">TModel Object</param>
         /// <returns>
         /// True : Success
-        /// False : Exception
         /// </returns>
+        /// <exception cref="OperationCanceledException">OperationCanceledException</exception>
         Task<bool> InsertAsync(TModel model);
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Services.GenericRepository.Services
         /// <param name="model">List TModel</param>
         /// <returns>
         /// True : Success
-        /// False : Exception
         /// </returns>
+        ///<exception cref="OperationCanceledException">OperationCanceledException</exception>
         Task<bool> InsertAsync(IEnumerable<TModel> model);
 
         /// <summary>
@@ -80,7 +80,6 @@ namespace Services.GenericRepository.Services
         /// <param name="model">TModel Object</param>
         /// <returns>
         /// True : Success
-        /// False : Exception
         /// </returns>
         Task<bool> UpdateAsync(TModel model);
 
@@ -102,7 +101,6 @@ namespace Services.GenericRepository.Services
         /// <param name="model">TModel Object</param>
         /// <returns>
         /// True : Success
-        /// False : Exception
         /// </returns>
         Task<bool> DeleteAsync(TModel model);
 
@@ -113,7 +111,6 @@ namespace Services.GenericRepository.Services
         /// <param name="model">List TModel</param>
         /// <returns>
         /// True : Success
-        /// False : Exception
         /// </returns>
         Task<bool> DeleteAsync(IEnumerable<TModel> model);
 
@@ -124,7 +121,6 @@ namespace Services.GenericRepository.Services
         /// <param name="id">TModel Id</param>
         /// <returns>
         /// True : Success
-        /// False : Exception
         /// </returns>
         Task<bool> DeleteAsync(object id);
     }

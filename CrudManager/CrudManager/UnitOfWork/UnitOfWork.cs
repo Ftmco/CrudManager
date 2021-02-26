@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace Services.Generic_Repository.UnitOfWork
 {
+    /// <summary>
+    /// Impelement IUnitOfWork
+    /// </summary>
+    /// <typeparam name="TContext">Db Context</typeparam>
     public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext, new()
     {
         #region __Get Dependency Injection__
@@ -31,12 +35,13 @@ namespace Services.Generic_Repository.UnitOfWork
         {
             try
             {
+                //Save All Changes
                 await DbContext.SaveChangesAsync();
                 return true;
             }
-            catch
+            catch (DbUpdateException dbUpdateException)
             {
-                return false;
+                throw dbUpdateException;
             }
         });
     }

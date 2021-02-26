@@ -35,9 +35,8 @@ namespace Services.GenericRepository.ServicesController
             get
             {
                 if (_services == null)
-                {
                     _services = new GenericServices<TModel>(_unitOfwork.DbContext);
-                }
+
                 return _services;
             }
         }
@@ -52,8 +51,9 @@ namespace Services.GenericRepository.ServicesController
         /// Save All Changes Async Use 'await' Befor Use This
         /// </summary>
         /// <returns>
-        /// True = Success; Fasle = Exception
+        /// True = Success
         /// </returns>
+        ///<exception cref="DbUpdateException">DbUpdateException</exception>
         public async Task<bool> SaveAsync() => await _unitOfwork.SaveAsync();
     }
 }
