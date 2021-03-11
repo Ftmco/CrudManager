@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Services.GenericRepository.Services
+namespace FTeam.Services
 {
     /// <summary>
     /// Crud Services 

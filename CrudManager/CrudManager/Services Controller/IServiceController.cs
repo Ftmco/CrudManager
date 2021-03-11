@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Services.GenericRepository.Services;
+﻿using FTeam.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
@@ -20,7 +20,7 @@ namespace FTeam.ServicesController
         /// <summary>
         /// Crud Services
         /// </summary>
-        public IGenericRepository<TModel> Services { get; }
+        IGenericRepository<TModel> GetServices();
 
         /// <summary>
         /// Save TModel and TContext Changes Async 

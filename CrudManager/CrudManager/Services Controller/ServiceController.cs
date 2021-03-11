@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Services.GenericRepository.Services;
+﻿using FTeam.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace FTeam.ServicesController
@@ -32,16 +32,13 @@ namespace FTeam.ServicesController
         /// <summary>
         /// Model Service Provider
         /// </summary>
-        public IGenericRepository<TModel> Services
+        public IGenericRepository<TModel> GetServices()
         {
-            get
-            {
-                if (_services == null)
-                    _services = new GenericServices<TModel>(DbContext);
+            if (_services == null)
+                _services = new GenericServices<TModel>(DbContext);
 
-                return _services;
-            }
-        }     
+            return _services;
+        }
 
         /// <summary>
         /// Dispose Db Context
