@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Services.GenericRepository.Services
+namespace FTeam.Services
 {
     /// <summary>
     /// Crud Services 
@@ -50,29 +50,29 @@ namespace Services.GenericRepository.Services
 
         public async Task<bool> AnyAsync(Expression<Func<TModel, bool>> where) => await Task.Run(async () => await _dbSet.AnyAsync(where));
 
-        public async Task<bool> DeleteAsync(IEnumerable<TModel> model) => await Task.Run(() =>
+        public async Task<bool> DeleteAsync(IEnumerable<TModel> model) => await Task.Run(async () =>
         {
             try
             {
                 _dbSet.RemoveRange(model);
-                return true;
+                return await SaveChangesAsync();
             }
             catch
             {
-                throw;
+                return false;
             }
         });
 
-        public async Task<bool> DeleteAsync(TModel model) => await Task.Run(() =>
+        public async Task<bool> DeleteAsync(TModel model) => await Task.Run(async () =>
         {
             try
             {
                 _dbSet.Remove(model);
-                return true;
+                return await SaveChangesAsync();
             }
             catch
             {
-                throw;
+                return false;
             }
         });
 
@@ -82,11 +82,11 @@ namespace Services.GenericRepository.Services
             try
             {
                 await _dbSet.AddAsync(model);
-                return true;
+                return await SaveChangesAsync();
             }
-            catch(OperationCanceledException operationCanceledException)
+            catch
             {
-                throw operationCanceledException;
+                return false;
             }
         });
 
@@ -95,20 +95,20 @@ namespace Services.GenericRepository.Services
             try
             {
                 await _dbSet.AddRangeAsync(model);
-                return true;
+                return await SaveChangesAsync();
             }
-            catch (OperationCanceledException operationCanceledException)
+            catch
             {
-                throw operationCanceledException;
+                return false;
             }
         });
 
-        public async Task<bool> UpdateAsync(TModel model) => await Task.Run(() =>
+        public async Task<bool> UpdateAsync(TModel model) => await Task.Run(async () =>
         {
             try
             {
                 _dbSet.Update(model);
-                return true;
+                return await SaveChangesAsync();
             }
             catch
             {
@@ -116,12 +116,12 @@ namespace Services.GenericRepository.Services
             }
         });
 
-        public async Task<bool> UpdateAsync(IEnumerable<TModel> model) => await Task.Run(() =>
+        public async Task<bool> UpdateAsync(IEnumerable<TModel> model) => await Task.Run(async () =>
         {
             try
             {
                 _dbSet.UpdateRange(model);
-                return true;
+                return await SaveChangesAsync();
             }
             catch
             {
@@ -129,5 +129,17 @@ namespace Services.GenericRepository.Services
             }
         });
 
+        private async Task<bool> SaveChangesAsync() => await Task.Run(async () =>
+        {
+            try
+            {
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        });
     }
 }

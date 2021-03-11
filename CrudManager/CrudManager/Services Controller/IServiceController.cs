@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Services.GenericRepository.Services;
+﻿using FTeam.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
-namespace Services.GenericRepository.ServicesController
+namespace FTeam.ServicesController
 {
     /// <summary>
     /// Crud Services Controller 
@@ -13,9 +13,14 @@ namespace Services.GenericRepository.ServicesController
     public interface IServiceController<TModel, TContext> : IDisposable where TModel : class where TContext : DbContext
     {
         /// <summary>
+        /// Db Context
+        /// </summary>
+        public TContext DbContext { get; init; }
+
+        /// <summary>
         /// Crud Services
         /// </summary>
-        public IGenericRepository<TModel> Services { get; }
+        IGenericRepository<TModel> GetServices();
 
         /// <summary>
         /// Save TModel and TContext Changes Async 
