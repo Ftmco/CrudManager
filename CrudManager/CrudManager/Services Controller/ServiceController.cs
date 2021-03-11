@@ -1,26 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Services.Generic_Repository.UnitOfWork;
 using Services.GenericRepository.Services;
 using System.Threading.Tasks;
 
-namespace Services.GenericRepository.ServicesController
+namespace FTeam.ServicesController
 {
     public class ServiceController<TModel, TContext> : IServiceController<TModel, TContext> where TModel : class where TContext : DbContext, new()
     {
-
-        #region __Depndency__
-
         /// <summary>
-        /// Db Context Controller
+        /// Db Context
         /// </summary>
-        private readonly IUnitOfWork<TContext> _unitOfwork;
+        private DbContext _db;
 
-        public ServiceController()
+        public TContext DbContext
         {
-            _unitOfwork = new UnitOfWork<TContext>();
+            get
+            {
+                if (_db == null)
+                {
+                    _db = new TContext();
+                }
+                return (TContext)_db;
+            }
+            init => _db = new TContext();
         }
-
-        #endregion
 
         /// <summary>
         /// Services Provider
@@ -35,17 +37,17 @@ namespace Services.GenericRepository.ServicesController
             get
             {
                 if (_services == null)
-                    _services = new GenericServices<TModel>(_unitOfwork.DbContext);
+                    _services = new GenericServices<TModel>(DbContext);
 
                 return _services;
             }
-        }
+        }     
 
         /// <summary>
         /// Dispose Db Context
         /// </summary>
-        public void Dispose() =>
-            _unitOfwork.Dispose();
+        public async void Dispose() =>
+           await _db.DisposeAsync();
 
         /// <summary>
         /// Save All Changes Async Use 'await' Befor Use This
@@ -54,6 +56,17 @@ namespace Services.GenericRepository.ServicesController
         /// True = Success
         /// </returns>
         ///<exception cref="DbUpdateException">DbUpdateException</exception>
-        public async Task<bool> SaveAsync() => await _unitOfwork.SaveAsync();
+        public async Task<bool> SaveAsync() => await Task.Run(async () =>
+        {
+            try
+            {
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        });
     }
 }
