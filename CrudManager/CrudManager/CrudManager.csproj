@@ -10,6 +10,14 @@
     <PackageProjectUrl>https://github.com/Ftmco/CrudManager</PackageProjectUrl>
     <Description>Crud Services For Sql Data Bases</Description>
     <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>Apache2</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>F.CrudManager.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/Ftmco/CrudManager</RepositoryUrl>
+    <RepositoryType>public</RepositoryType>
+    <PackageTags>CrudServices SQL ORM</PackageTags>
+    <PackageReleaseNotes>Add Delete Expression Function</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +26,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\..\..\Icons\Friends Icons\F.CrudManager.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
