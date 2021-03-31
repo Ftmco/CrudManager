@@ -115,6 +115,14 @@ namespace FTeam.Services
         Task<bool> DeleteAsync(IEnumerable<TModel> model);
 
         /// <summary>
+        /// Delete List With Expression 
+        /// </summary>
+        /// <param name="deleteWhere">Delete Where Expression</param>
+        /// <returns>True : Success</returns>
+        Task<bool> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere);
+
+
+        /// <summary>
         /// Delete TModel By Id
         /// <see langword="await"/>
         /// </summary>
