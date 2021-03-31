@@ -50,7 +50,8 @@ namespace FTeam.Services
 
         public async Task<bool> AnyAsync(Expression<Func<TModel, bool>> where) => await Task.Run(async () => await _dbSet.AnyAsync(where));
 
-        public async Task<bool> DeleteAsync(IEnumerable<TModel> model) => await Task.Run(async () =>
+        public async Task<bool> DeleteAsync(IEnumerable<TModel> model)
+            => await Task.Run(async () =>
         {
             try
             {
@@ -63,83 +64,92 @@ namespace FTeam.Services
             }
         });
 
-        public async Task<bool> DeleteAsync(TModel model) => await Task.Run(async () =>
-        {
-            try
+        public async Task<bool> DeleteAsync(TModel model)
+            => await Task.Run(async () =>
             {
-                _dbSet.Remove(model);
-                return await SaveChangesAsync();
-            }
-            catch
-            {
-                return false;
-            }
-        });
+                try
+                {
+                    _dbSet.Remove(model);
+                    return await SaveChangesAsync();
+                }
+                catch
+                {
+                    return false;
+                }
+            });
 
+        public async Task<bool> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere)
+            => await Task.Run(async () => await DeleteAsync(await GetAllAsync(deleteWhere)));
 
-        public async Task<bool> InsertAsync(TModel model) => await Task.Run(async () =>
-        {
-            try
+        public async Task<bool> InsertAsync(TModel model)
+            => await Task.Run(async () =>
             {
-                await _dbSet.AddAsync(model);
-                return await SaveChangesAsync();
-            }
-            catch
-            {
-                return false;
-            }
-        });
+                try
+                {
+                    await _dbSet.AddAsync(model);
+                    return await SaveChangesAsync();
+                }
+                catch
+                {
+                    return false;
+                }
+            });
 
-        public async Task<bool> InsertAsync(IEnumerable<TModel> model) => await Task.Run(async () =>
-        {
-            try
+        public async Task<bool> InsertAsync(IEnumerable<TModel> model)
+            => await Task.Run(async () =>
             {
-                await _dbSet.AddRangeAsync(model);
-                return await SaveChangesAsync();
-            }
-            catch
-            {
-                return false;
-            }
-        });
+                try
+                {
+                    await _dbSet.AddRangeAsync(model);
+                    return await SaveChangesAsync();
+                }
+                catch
+                {
+                    return false;
+                }
+            });
 
-        public async Task<bool> UpdateAsync(TModel model) => await Task.Run(async () =>
-        {
-            try
+        public async Task<bool> UpdateAsync(TModel model)
+            => await Task.Run(async () =>
             {
-                _dbSet.Update(model);
-                return await SaveChangesAsync();
-            }
-            catch
-            {
-                throw;
-            }
-        });
+                try
+                {
+                    _dbSet.Update(model);
+                    return await SaveChangesAsync();
+                }
+                catch
+                {
+                    throw;
+                }
+            });
 
-        public async Task<bool> UpdateAsync(IEnumerable<TModel> model) => await Task.Run(async () =>
-        {
-            try
+        public async Task<bool> UpdateAsync(IEnumerable<TModel> model)
+            => await Task.Run(async () =>
             {
-                _dbSet.UpdateRange(model);
-                return await SaveChangesAsync();
-            }
-            catch
-            {
-                throw;
-            }
-        });
+                try
+                {
+                    _dbSet.UpdateRange(model);
+                    return await SaveChangesAsync();
+                }
+                catch
+                {
+                    throw;
+                }
+            });
 
-        private async Task<bool> SaveChangesAsync() => await Task.Run(async () =>
-        {
-            try
+        private async Task<bool> SaveChangesAsync()
+            => await Task.Run(async () =>
             {
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        });
+                try
+                {
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
+
     }
 }
