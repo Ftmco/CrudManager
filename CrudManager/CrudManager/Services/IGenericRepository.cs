@@ -131,6 +131,6 @@ namespace FTeam.Services
         /// <returns>
         /// True : Success
         /// </returns>
-        Task<bool> DeleteAsync(object id);
+        Task<DeleteStatus> DeleteAsync(object id);
     }
 }

@@ -53,29 +53,43 @@ namespace FTeam.Services
 
         public async Task<DeleteStatus> DeleteAsync(IEnumerable<TModel> model)
             => await Task.Run(async () =>
-        {
-            try
             {
-                _dbSet.RemoveRange(model);
-                return await SaveChangesAsync();
-            }
-            catch
-            {
-                return DeleteStatus.Exception;
-            }
-        });
+                if (model == null)
+                    return DeleteStatus.NullRefrence;
 
-        public async Task<bool> DeleteAsync(TModel model)
-            => await Task.Run(async () =>
-            {
                 try
                 {
-                    _dbSet.Remove(model);
-                    return await SaveChangesAsync();
+                    _dbSet.RemoveRange(model);
+                    return await SaveChangesAsync() switch
+                    {
+                        SaveChangesStatus.Success => DeleteStatus.Success,
+                        _ => DeleteStatus.Exception
+                    };
                 }
                 catch
                 {
-                    return false;
+                    return DeleteStatus.Exception;
+                }
+            });
+
+        public async Task<DeleteStatus> DeleteAsync(TModel model)
+            => await Task.Run(async () =>
+            {
+                if (model == null)
+                    return DeleteStatus.NullRefrence;
+
+                try
+                {
+                    _dbSet.Remove(model);
+                    return await SaveChangesAsync() switch
+                    {
+                        SaveChangesStatus.Success => DeleteStatus.Success,
+                        _ => DeleteStatus.Exception
+                    };
+                }
+                catch
+                {
+                    return DeleteStatus.Exception;
                 }
             });
 
