@@ -61,7 +61,7 @@ namespace FTeam.Services
         /// True : Success
         /// </returns>
         /// <exception cref="OperationCanceledException">OperationCanceledException</exception>
-        Task<bool> InsertAsync(TModel model);
+        Task<CrudStatus> InsertAsync(TModel model);
 
         /// <summary>
         /// Insert List TModel To DB
@@ -72,7 +72,7 @@ namespace FTeam.Services
         /// True : Success
         /// </returns>
         ///<exception cref="OperationCanceledException">OperationCanceledException</exception>
-        Task<bool> InsertAsync(IEnumerable<TModel> model);
+        Task<CrudStatus> InsertAsync(IEnumerable<TModel> model);
 
         /// <summary>
         /// Update TModel 
@@ -82,7 +82,7 @@ namespace FTeam.Services
         /// <returns>
         /// True : Success
         /// </returns>
-        Task<bool> UpdateAsync(TModel model);
+        Task<CrudStatus> UpdateAsync(TModel model);
 
         /// <summary>
         /// Update List TModel
@@ -93,7 +93,7 @@ namespace FTeam.Services
         /// True : Success
         /// False : Exception
         /// </returns>
-        Task<bool> UpdateAsync(IEnumerable<TModel> model);
+        Task<CrudStatus> UpdateAsync(IEnumerable<TModel> model);
 
         /// <summary>
         /// Delete TModel
@@ -103,7 +103,7 @@ namespace FTeam.Services
         /// <returns>
         /// True : Success
         /// </returns>
-        Task<DeleteStatus> DeleteAsync(TModel model);
+        Task<CrudStatus> DeleteAsync(TModel model);
 
         /// <summary>
         /// Delete List TModel
@@ -113,14 +113,14 @@ namespace FTeam.Services
         /// <returns>
         /// True : Success
         /// </returns>
-        Task<DeleteStatus> DeleteAsync(IEnumerable<TModel> model);
+        Task<CrudStatus> DeleteAsync(IEnumerable<TModel> model);
 
         /// <summary>
         /// Delete List With Expression 
         /// </summary>
         /// <param name="deleteWhere">Delete Where Expression</param>
         /// <returns>True : Success</returns>
-        Task<DeleteStatus> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere);
+        Task<CrudStatus> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere);
 
 
         /// <summary>
@@ -131,6 +131,6 @@ namespace FTeam.Services
         /// <returns>
         /// True : Success
         /// </returns>
-        Task<DeleteStatus> DeleteAsync(object id);
+        Task<CrudStatus> DeleteAsync(object id);
     }
 }

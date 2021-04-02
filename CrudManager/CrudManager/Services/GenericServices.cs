@@ -39,7 +39,7 @@ namespace FTeam.Services
 
         #endregion
 
-        public async Task<DeleteStatus> DeleteAsync(object id) => await Task.Run(async () => await DeleteAsync(await FindByIdAsync(id)));
+        public async Task<CrudStatus> DeleteAsync(object id) => await Task.Run(async () => await DeleteAsync(await FindByIdAsync(id)));
 
         public async Task<TModel> FindByIdAsync(object id) => await Task.Run(async () => await _dbSet.FindAsync(id));
 
@@ -51,104 +51,132 @@ namespace FTeam.Services
 
         public async Task<bool> AnyAsync(Expression<Func<TModel, bool>> where) => await Task.Run(async () => await _dbSet.AnyAsync(where));
 
-        public async Task<DeleteStatus> DeleteAsync(IEnumerable<TModel> model)
+        public async Task<CrudStatus> DeleteAsync(IEnumerable<TModel> model)
             => await Task.Run(async () =>
             {
                 if (model == null)
-                    return DeleteStatus.NullRefrence;
+                    return CrudStatus.NullRefrence;
 
                 try
                 {
                     _dbSet.RemoveRange(model);
                     return await SaveChangesAsync() switch
                     {
-                        SaveChangesStatus.Success => DeleteStatus.Success,
-                        _ => DeleteStatus.Exception
+                        SaveChangesStatus.Success => CrudStatus.Success,
+                        _ => CrudStatus.Exception
                     };
                 }
                 catch
                 {
-                    return DeleteStatus.Exception;
+                    return CrudStatus.Exception;
                 }
             });
 
-        public async Task<DeleteStatus> DeleteAsync(TModel model)
+        public async Task<CrudStatus> DeleteAsync(TModel model)
             => await Task.Run(async () =>
             {
                 if (model == null)
-                    return DeleteStatus.NullRefrence;
+                    return CrudStatus.NullRefrence;
 
                 try
                 {
                     _dbSet.Remove(model);
                     return await SaveChangesAsync() switch
                     {
-                        SaveChangesStatus.Success => DeleteStatus.Success,
-                        _ => DeleteStatus.Exception
+                        SaveChangesStatus.Success => CrudStatus.Success,
+                        _ => CrudStatus.Exception
                     };
                 }
                 catch
                 {
-                    return DeleteStatus.Exception;
+                    return CrudStatus.Exception;
                 }
             });
 
-        public async Task<DeleteStatus> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere)
+        public async Task<CrudStatus> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere)
             => await Task.Run(async () => await DeleteAsync(await GetAllAsync(deleteWhere)));
 
-        public async Task<bool> InsertAsync(TModel model)
+        public async Task<CrudStatus> InsertAsync(TModel model)
             => await Task.Run(async () =>
             {
+                if (model == null)
+                    return CrudStatus.NullRefrence;
+
                 try
                 {
                     await _dbSet.AddAsync(model);
-                    return await SaveChangesAsync();
+                    return await SaveChangesAsync() switch
+                    {
+                        SaveChangesStatus.Success => CrudStatus.Success,
+                        _ => CrudStatus.Exception
+                    };
                 }
                 catch
                 {
-                    return false;
+                    return CrudStatus.Exception;
                 }
             });
 
-        public async Task<bool> InsertAsync(IEnumerable<TModel> model)
+        public async Task<CrudStatus> InsertAsync(IEnumerable<TModel> model)
             => await Task.Run(async () =>
             {
+                if (model == null)
+                    return CrudStatus.NullRefrence;
+
                 try
                 {
                     await _dbSet.AddRangeAsync(model);
-                    return await SaveChangesAsync();
+                    return await SaveChangesAsync() switch
+                    {
+                        SaveChangesStatus.Success => CrudStatus.Success,
+                        _ => CrudStatus.Exception
+                    };
                 }
                 catch
                 {
-                    return false;
+                    return CrudStatus.Exception;
                 }
             });
 
-        public async Task<bool> UpdateAsync(TModel model)
+        public async Task<CrudStatus> UpdateAsync(TModel model)
             => await Task.Run(async () =>
             {
+                if (model == null)
+                    return CrudStatus.NullRefrence;
+
                 try
                 {
                     _dbSet.Update(model);
-                    return await SaveChangesAsync();
+                    return await SaveChangesAsync() switch
+                    {
+                        SaveChangesStatus.Success => CrudStatus.Success,
+                        _ => CrudStatus.Exception
+                    };
                 }
                 catch
                 {
-                    throw;
+                    return CrudStatus.Exception;
                 }
             });
 
-        public async Task<bool> UpdateAsync(IEnumerable<TModel> model)
+        public async Task<CrudStatus> UpdateAsync(IEnumerable<TModel> model)
             => await Task.Run(async () =>
             {
+                if (model == null)
+                    return CrudStatus.NullRefrence;
+
                 try
                 {
                     _dbSet.UpdateRange(model);
-                    return await SaveChangesAsync();
+                    return await SaveChangesAsync() switch
+                    {
+                        SaveChangesStatus.Success => CrudStatus.Success,
+                        _ => CrudStatus.Exception
+                    };
                 }
                 catch
                 {
-                    throw;
+                    return CrudStatus.Exception;
                 }
             });
 

@@ -1,15 +1,19 @@
 ﻿namespace FTeam.CrudManager.Response
 {
     /// <summary>
-    /// Delete Item Status
+    /// Create 
+    /// Read 
+    /// Update 
+    /// Delete 
+    /// Status
     /// </summary>
-    public enum DeleteStatus
+    public enum CrudStatus
     {
         /// <summary>
-        /// Success To Delete and Save
+        /// Success To Action and Save
         /// </summary>
         Success,
-        
+
         /// <summary>
         /// System Exceptions
         /// </summary>
@@ -19,5 +23,6 @@
         /// Null Refrence Object
         /// </summary>
         NullRefrence
+
     }
 }
