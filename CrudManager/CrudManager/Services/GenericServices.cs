@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FTeam.CrudManager.Response;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace FTeam.Services
 
         #endregion
 
-        public async Task<bool> DeleteAsync(object id) => await Task.Run(async () => await DeleteAsync(await FindByIdAsync(id)));
+        public async Task<DeleteStatus> DeleteAsync(object id) => await Task.Run(async () => await DeleteAsync(await FindByIdAsync(id)));
 
         public async Task<TModel> FindByIdAsync(object id) => await Task.Run(async () => await _dbSet.FindAsync(id));
 
@@ -50,7 +51,7 @@ namespace FTeam.Services
 
         public async Task<bool> AnyAsync(Expression<Func<TModel, bool>> where) => await Task.Run(async () => await _dbSet.AnyAsync(where));
 
-        public async Task<bool> DeleteAsync(IEnumerable<TModel> model)
+        public async Task<DeleteStatus> DeleteAsync(IEnumerable<TModel> model)
             => await Task.Run(async () =>
         {
             try
@@ -60,7 +61,7 @@ namespace FTeam.Services
             }
             catch
             {
-                return false;
+                return DeleteStatus.Exception;
             }
         });
 
@@ -78,7 +79,7 @@ namespace FTeam.Services
                 }
             });
 
-        public async Task<bool> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere)
+        public async Task<DeleteStatus> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere)
             => await Task.Run(async () => await DeleteAsync(await GetAllAsync(deleteWhere)));
 
         public async Task<bool> InsertAsync(TModel model)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FTeam.CrudManager.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -102,7 +103,7 @@ namespace FTeam.Services
         /// <returns>
         /// True : Success
         /// </returns>
-        Task<bool> DeleteAsync(TModel model);
+        Task<DeleteStatus> DeleteAsync(TModel model);
 
         /// <summary>
         /// Delete List TModel
@@ -112,14 +113,14 @@ namespace FTeam.Services
         /// <returns>
         /// True : Success
         /// </returns>
-        Task<bool> DeleteAsync(IEnumerable<TModel> model);
+        Task<DeleteStatus> DeleteAsync(IEnumerable<TModel> model);
 
         /// <summary>
         /// Delete List With Expression 
         /// </summary>
         /// <param name="deleteWhere">Delete Where Expression</param>
         /// <returns>True : Success</returns>
-        Task<bool> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere);
+        Task<DeleteStatus> DeleteAsync(Expression<Func<TModel, bool>> deleteWhere);
 
 
         /// <summary>
