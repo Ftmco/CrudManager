@@ -138,17 +138,17 @@ namespace FTeam.Services
                 }
             });
 
-        private async Task<bool> SaveChangesAsync()
+        private async Task<SaveChangesStatus> SaveChangesAsync()
             => await Task.Run(async () =>
             {
                 try
                 {
                     await _db.SaveChangesAsync();
-                    return true;
+                    return SaveChangesStatus.Success;
                 }
                 catch
                 {
-                    return false;
+                    return SaveChangesStatus.Exception;
                 }
             });
 
