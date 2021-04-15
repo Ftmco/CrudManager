@@ -44,13 +44,19 @@ namespace FTeam.Services
 
         public async Task<CrudStatus> DeleteAsync(object id) => await Task.Run(async () => await DeleteAsync(await FindByIdAsync(id)));
 
-        public async Task<TModel> FindByIdAsync(object id) => await Task.Run(async () => await _dbSet.FindAsync(id));
+        public async Task<TModel> FindByIdAsync(object id) => await Task.Run(async () =>
+        {
+            using SqlConnection connection = new(_db.Database.GetConnectionString());
+            string entityName = GetTableName();
+            TModel entity = await connection.QueryFirstAsync<TModel>($"");
+            return entity;
+
+        });
 
         public async Task<IEnumerable<TModel>> GetAllAsync() => await Task.Run(async () =>
         {
             using var connection = new SqlConnection(_db.Database.GetConnectionString());
-            IEntityType entityType = _db.Model.FindEntityType(typeof(TModel));
-            string entityName = entityType.GetTableName();
+            string entityName = GetTableName();
             IEnumerable<TModel> entityList = await connection.QueryAsync<TModel>($"SELECT * FROM {entityName}");
             return entityList;
         });
@@ -204,5 +210,11 @@ namespace FTeam.Services
                 }
             });
 
+        private string GetTableName()
+        {
+            IEntityType entityType = _db.Model.FindEntityType(typeof(TModel));
+            string entityName = entityType.GetTableName();
+            return entityName;
+        }
     }
 }
