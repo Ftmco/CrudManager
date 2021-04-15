@@ -1,7 +1,10 @@
-﻿using FTeam.CrudManager.Response;
+﻿using Dapper;
+using FTeam.CrudManager.Response;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -43,7 +46,14 @@ namespace FTeam.Services
 
         public async Task<TModel> FindByIdAsync(object id) => await Task.Run(async () => await _dbSet.FindAsync(id));
 
-        public async Task<IEnumerable<TModel>> GetAllAsync() => await Task.Run(async () => await _dbSet.ToListAsync());
+        public async Task<IEnumerable<TModel>> GetAllAsync() => await Task.Run(async () =>
+        {
+            using var connection = new SqlConnection(_db.Database.GetConnectionString());
+            IEntityType entityType = _db.Model.FindEntityType(typeof(TModel));
+            string entityName = entityType.GetTableName();
+            IEnumerable<TModel> entityList = await connection.QueryAsync<TModel>($"SELECT * FROM {entityName}");
+            return entityList;
+        });
 
         public async Task<IEnumerable<TModel>> GetAllAsync(Expression<Func<TModel, bool>> where) => await Task.Run(async () => await _dbSet.Where(where).ToListAsync());
 
