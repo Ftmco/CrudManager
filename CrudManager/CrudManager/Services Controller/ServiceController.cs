@@ -6,6 +6,7 @@ namespace FTeam.ServicesController
 {
     public class ServiceController<TModel, TContext> : IServiceController<TModel, TContext> where TModel : class where TContext : DbContext, new()
     {
+
         /// <summary>
         /// Db Context
         /// </summary>

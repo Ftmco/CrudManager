@@ -21,6 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fdi" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.1.21102.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.1.21102.2">
       <PrivateAssets>all</PrivateAssets>
